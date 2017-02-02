@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test App</title>
+</head>
+<body>
+<h1>An electron app?</h1>
+
+</body>
+
+<script>
+    var d3 = require("d3"),
+    jsdom = require("jsdom");
+
+    var document = jsdom.jsdom(),
+    svg = d3.select(document.body).append("svg");
+    
+    svg.attr("width", 100).attr("height", 100);    
+
+    svg.append("circle")
+        .style("stroke", "gray")
+        .style("fill", "white")
+        .attr("r", 40)
+        .attr("cx", 50)
+        .attr("cy", 50)
+        .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
+        .on("mouseout", function(){d3.select(this).style("fill", "white");});
+</script>
+</html>
