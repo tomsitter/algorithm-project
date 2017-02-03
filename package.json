@@ -11,11 +11,12 @@
   "license": "ISC",
   "dependencies": {
     "d3": "^4.5.0",
-    "electron": "^1.4.15",
-    "jsdom": "^9.9.1"
+    "d4": "^0.8.15"
   },
-  "repository": 
-  {
+  "devDependencies": {
+    "electron": "^1.4.15"
+  },
+  "repository": {
     "type": "git",
     "url": "https://github.com/tomsitter/algorithm-project.git"
   }
