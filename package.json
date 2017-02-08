@@ -2,16 +2,15 @@
   "name": "algorithm-project",
   "version": "1.0.0",
   "description": "Desktop application for AFHTO's algorithm project",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "start": "electron main.js",
+    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Tom Sitter",
   "license": "ISC",
   "dependencies": {
-    "d3": "^4.5.0",
-    "d4": "^0.8.15"
+    "d3": "^4.5.0"
   },
   "devDependencies": {
     "electron": "^1.4.15"

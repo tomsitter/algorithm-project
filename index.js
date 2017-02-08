@@ -1,15 +1,7 @@
-// const os = require('os')   
 const fs = require('fs')
-
-// const fileManagerBtn = document.getElementById('open-file-manager')
-
-// fileManagerBtn.addEventListener('click', function (event) {
-//   shell.showItemInFolder(os.homedir())
-// })
 const {dialog} = require('electron').remote;
 
 const d3 = require("d3")
-// const d4 = require("d4")
    
 const fileManagerBtn = document.getElementById('open-file-manager')
 
