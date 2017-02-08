@@ -1,9 +1,14 @@
-const fs = require('fs')
+const fs = require('fs');
 const {dialog} = require('electron').remote;
 
-const d3 = require("d3")
+const d3 = require("d3");
+const parsers = require("./js/parsers");
    
 const fileManagerBtn = document.getElementById('open-file-manager')
+
+var state = {
+  'EMR': 'PSS'
+}
 
 fileManagerBtn.addEventListener('click', () => {
     dialog.showOpenDialog({properties: ['openFile']}, (filename) => {
@@ -31,11 +36,7 @@ function plot(err, raw) {
         .x(function(d) { return x(d.date); })
         .y(function(d) { return y(d.close); });
 
-    let data = d3.csvParse(raw, function(d) {
-      d.date = parseTime(d.date);
-      d.close = +d.close;
-      return d;
-    });
+    let data = d3.csvParse(raw, normalizeData);
     
     x.domain(d3.extent(data, function(d) { return d.date; }));
     y.domain(d3.extent(data, function(d) { return d.close; }));
@@ -65,3 +66,12 @@ function plot(err, raw) {
       .attr("stroke-width", 1.5)
       .attr("d", line);
 }
+
+function normalizeData(row) {
+  if (state.EMR=="PSS") {
+    row["Date Hb A1C"] = new Date(row["Date Hb A1C"]);
+    row["Date LDL"] = parsers.parseDate(state.EMR, row["Date LDL"]);
+  }
+  return row
+}
+
