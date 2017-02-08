@@ -1,11 +1,14 @@
 // Utility functions for parsing data from various EMRs
 
 function parseDate(emr, date) {
-    if (emr == 'PSS') {
-        return new Date(date);
-    }
+    return new Date(date);
+}
+
+function parseNum(emr, val) {
+    return +val
 }
 
 module.exports = {
-    'parseDate': parseDate
+    'parseDate': parseDate,
+    'parseNum': parseNum
 }

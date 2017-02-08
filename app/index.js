@@ -8,7 +8,8 @@ const charts = require("./js/charts");
 const fileManagerBtn = document.getElementById('open-file-manager')
 
 var state = {
-  'EMR': 'PSS'
+  'emr': 'pss',
+  'condition': 'diabetes'
 }
 
 fileManagerBtn.addEventListener('click', () => {
@@ -27,11 +28,40 @@ function plot(err, raw) {
 }
 
 function normalizeData(row) {
-  if (state.EMR=="PSS") {
-    row["Date Hb A1C"] = new Date(row["Date Hb A1C"])
-    row["Date LDL"] = parsers.parseDate(state.EMR, row["Date LDL"])
-    row["DM Months"] = +row["DM Months"]
+  if (state.condition=='diabetes') {
+    return normalizeDiabetes(row)
   }
-  return row
+}
+
+function normalizeDiabetes(row) {
+  record = {};
+  for (let [emrKey, mapper] of entries(diabetesMap[state.emr])) {
+    record[mapper.key] = mapper.parse(state.emr, row[emrKey])
+  }
+    
+  return record
+}
+
+diabetesMap = {
+  "pss": {
+    "Date Hb A1C": { 
+      "key": "Date Hb A1C",
+      "parse": parsers.parseDate
+    },
+    "Date LDL": {
+      "key": "Date LDL",
+      "parse": parsers.parseDate
+    },
+    "DM Months": {
+      "key": "DM Months",
+      "parse": parsers.parseNum
+    }
+  }
+}
+
+function* entries(obj) {
+   for (let key of Object.keys(obj)) {
+     yield [key, obj[key]];
+   }
 }
 
