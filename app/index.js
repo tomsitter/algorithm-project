@@ -10,6 +10,7 @@ state = {
 
 const charts = require("./js/charts")
 const normalize = require("./js/normalize")(state)
+const indicators = require("./js/indicators")(state)
 
 const fileManagerBtn = document.getElementById('open-file-manager')
 
@@ -21,9 +22,33 @@ fileManagerBtn.addEventListener('click', () => {
 })
 
 function plot(err, raw) {
+    /* To plot the raw data we have to:
+    1) Parse it
+    2) Normalize it
+    3) Apply the appropriate indicators
+    4) Plot the results from the analysis
+    */
     let data = d3.csvParse(raw, normalize.normalizeData);
-    let dmMonths = data.map(function(a) {return a["DM Months"];});
+
+    let results = indicators.process(data);
+
+    /* 
+    results = {
+        'dmMonths': {
+            desc,
+            longDesc,
+            result: {
+                'passed': 100,
+                'failed': 50,
+                'na': 6
+            }
+        },
+        ...
+    }
+    */
+
+    // let dmMonths = data.map(function(a) {return a["DM Months"];});
     
     let exampleChart = charts.barChart();
-    d3.select("#d3-chart").datum(dmMonths).call(exampleChart);
+    d3.select("#d3-chart").datum(results).call(exampleChart);
 }
