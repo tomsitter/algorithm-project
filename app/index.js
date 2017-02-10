@@ -1,15 +1,13 @@
-const fs = require('fs');
+const fs = require('fs')
+const d3 = require('d3')
 const {dialog} = require('electron').remote
 
-const d3 = require("d3");
-
-state = {
-  'emr': 'pss',
-  'condition': 'diabetes'
-}
-
 const charts = require("./js/charts")
-const normalize = require("./js/normalize")(state)
+
+const {State} = require("./js/state")
+
+var appState = new State();
+const normalize = require("./js/normalize")(appState)
 
 const fileManagerBtn = document.getElementById('open-file-manager')
 
@@ -20,10 +18,23 @@ fileManagerBtn.addEventListener('click', () => {
     })
 })
 
+const emrDropdown = document.getElementById('emr')
+
+emrDropdown.addEventListener('change', (evt) => {
+    console.log(evt.target.value);
+    appState.emr = evt.target.value;
+})
+
+const conditionDropdown = document.getElementById('condition')
+
+conditionDropdown.addEventListener('change', (evt) => {
+    console.log(evt.target.value);
+    appState.condition = evt.target.value;
+})
+
 function plot(err, raw) {
-    let data = d3.csvParse(raw, normalize.normalizeData);
-    let dmMonths = data.map(function(a) {return a["DM Months"];});
+    appState.patients = d3.csvParse(raw, normalize.normalizeData);
     
     let exampleChart = charts.barChart();
-    d3.select("#d3-chart").datum(dmMonths).call(exampleChart);
+    d3.select("#d3-chart").datum(appState.results).call(exampleChart);
 }

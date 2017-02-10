@@ -31,14 +31,12 @@ function* entries(obj) {
    }
 }
 
-module.exports = function(state) {
-    let module = {}
-
-    module.normalizeData = function(row) {
-        if (state.condition=='diabetes') {
-            return normalizeDiabetes(state.emr, row)
-        }
+module.exports = function(appState) {
+  var modules = {}
+  modules.normalizeData = (row) => {
+    if (appState.condition=='diabetes') {
+        return normalizeDiabetes(appState.emr, row)
     }
-
-    return module
+  }
+  return modules
 }

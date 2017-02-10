@@ -6,7 +6,8 @@
   "author": "Tom Sitter",
   "license": "ISC",
   "dependencies": {
-    "d3": "^4.5.0"
+    "d3": "^4.5.0",
+    "mobx": "^3.1.0"
   },
   "devDependencies": {
     "electron": "^1.4.15"
@@ -21,6 +22,6 @@
     "package": "electron-packager . AlgorithmProject --overwrite --asar=true --out=release-builds",
     "package-mac": "electron-packager . AlgorithmProject --overwrite --asar=true --platform=darwin --arch=x64 --prune=true --out=release-builds",
     "package-win": "electron-packager . AlgorithmProject --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds",
-    "package-linux" : "electron-packager . AlgorithmProject --overwrite --asar=true --platform=linux --arch=x64 --prune=true --out=release-builds"
+    "package-linux": "electron-packager . AlgorithmProject --overwrite --asar=true --platform=linux --arch=x64 --prune=true --out=release-builds"
   }
 }
