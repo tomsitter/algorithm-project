@@ -13,8 +13,70 @@ Each indicator must have the following properties:
 
 Indicators can then be further grouped into related sets of indicators that one would apply at the same time (i.e. a set of diabetes indicators)
 */
+let applyIndicators = (condition, patients) => {
+    /* 
+    results = {
+        'dmMonths': {
+            desc,
+            longDesc,
+            result: {
+                'passed': 100,
+                'failed': 50,
+                'na': 6
+            }
+        },
+        ...
+    }
+    */
+    results = []
+    if (condition == 'diabetes') {
+        for (let indicator of diabetesIndicators) {
+            results.push({
+                desc: indicator.desc(),
+                longDesc: indicator.longDesc(),
+                results: {
+
+                }
+            }
+
+            )
+        }
+    }
+}
+
+let mapColNamesToValues = (colNames, patient) => { 
+    return colNames.map((col) => {return patient[col]})
+}
+
+let isTrue = (count=0, status) => {
+    if (status === true) return count + 1
+    return count 
+}
+
+let isFalse = (count=0, status) => {
+    if (status === false) return count + 1
+    return count
+}
+
+let isNaN = (count=0, status) => {
+    if (isNaN(status)) return count + 1
+    return count
+}
+
+
+let getResults = (rule, colNames, patients) => {
+    results = patients.map((patient) => {
+        return rule(...mapColNamesToValues(colNames, patient))
+    })
+    return {
+        'passed': arr.reduce(isTrue, 0),
+        'failed': arr.reduce(isFalse, 0),
+        'na': arr.reduce(isNaN, 0),
+    }
+}
 
 let dmVisit = {
+    name: 'dmVisit',
     params: { months: 12 },
     colNames: ["Report Date", "DM Months"],
     desc: () => {return "Diabetic Visit in past " + this.params.months + " months"; },
@@ -35,14 +97,10 @@ let dmVisit = {
     }
 }
 
-let diabetesIndicatorSet = [
+let diabetesIndicators = [
     dmVisit
 ]
 
 module.exports = {
-    // individual indicators
-    dmVisit,
-
-    // sets of indicators
-    diabetesIndicatorSet
+    applyIndicators
 }

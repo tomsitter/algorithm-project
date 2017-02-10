@@ -7,7 +7,7 @@ const charts = require("./js/charts")
 const {State} = require("./js/state")
 
 var appState = new State();
-const normalize = require("./js/normalize")(appState)
+const normalize = require("./js/normalize")
 const indicators = require("./js/indicators")
 
 const fileManagerBtn = document.getElementById('open-file-manager')
@@ -22,14 +22,12 @@ fileManagerBtn.addEventListener('click', () => {
 const emrDropdown = document.getElementById('emr')
 
 emrDropdown.addEventListener('change', (evt) => {
-    console.log(evt.target.value);
     appState.emr = evt.target.value;
 })
 
 const conditionDropdown = document.getElementById('condition')
 
 conditionDropdown.addEventListener('change', (evt) => {
-    console.log(evt.target.value);
     appState.condition = evt.target.value;
 })
 
@@ -39,23 +37,8 @@ function plot(err, raw) {
     2) Apply the appropriate indicators
     3) Plot the results from the analysis
     */    
-    appState.patients = d3.csvParse(raw, normalize.normalizeData);
+    appState.data = d3.csvParse(raw);
     
     let exampleChart = charts.barChart();
     d3.select("#d3-chart").datum(appState.results).call(exampleChart);
-
-    /* 
-    results = {
-        'dmMonths': {
-            desc,
-            longDesc,
-            result: {
-                'passed': 100,
-                'failed': 50,
-                'na': 6
-            }
-        },
-        ...
-    }
-    */
 }

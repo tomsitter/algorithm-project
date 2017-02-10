@@ -31,12 +31,18 @@ function* entries(obj) {
    }
 }
 
-module.exports = function(appState) {
-  var modules = {}
-  modules.normalizeData = (row) => {
-    if (appState.condition=='diabetes') {
-        return normalizeDiabetes(appState.emr, row)
-    }
+// function normalizeData(data) {
+//   if (this.condition=='diabetes') {
+//     return data.map(row, normalizeDiabetes(this.emr, row))
+//   }
+// }
+
+let normalizeData = (emr, condition, data) => {
+  if (condition=='diabetes') {
+    return data.map((row) => normalizeDiabetes(emr, row))
   }
-  return modules
+}
+
+module.exports = {
+  normalizeData
 }
