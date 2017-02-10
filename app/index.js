@@ -6,14 +6,9 @@ const charts = require("./js/charts")
 
 const {State} = require("./js/state")
 
-<<<<<<< HEAD
 var appState = new State();
 const normalize = require("./js/normalize")(appState)
-=======
-const charts = require("./js/charts")
-const normalize = require("./js/normalize")(state)
-const indicators = require("./js/indicators")(state)
->>>>>>> a4d7603477b70d7e69fc81a600c1d6f3e405a95b
+const indicators = require("./js/indicators")
 
 const fileManagerBtn = document.getElementById('open-file-manager')
 
