@@ -4,14 +4,14 @@ function parseDate(date) {
     return new Date(date);
 }
 
-function parseDdMmYyyyDate(date) {
+function parseDdMmYyyyDate(ddMmYyyy) {
     // Some dates are in dd/mm/yyyy format
-    // We can split and reverse them to pass as Date(yyyy, mm, dd)
-    ddMmYyyy = date.split("/")
-    //Months are 0 based in 
-    ddMmYyyy[1] -= 1
+    // We can split into array and reverse it to get [yyyy, mm, dd]
+    let yyyyMmDd = ddMmYyyy.split("/").reverse()
+    //Months are 0 based in JS so subtract 1
+    yyyyMmDd[1] -= 1
 
-    return new Date(...ddMmYyyy.reverse())
+    return new Date(...yyyyMmDd)
 }
 
 function parseNum(val) {
