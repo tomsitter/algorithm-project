@@ -14,33 +14,23 @@ Each indicator must have the following properties:
 Indicators can then be further grouped into related sets of indicators that one would apply at the same time (i.e. a set of diabetes indicators)
 */
 let applyIndicators = (condition, patients) => {
-    /* 
-    results = {
-        'dmMonths': {
-            desc,
-            longDesc,
-            result: {
-                'passed': 100,
-                'failed': 50,
-                'na': 6
-            }
-        },
-        ...
-    }
-    */
     results = []
-    if (condition == 'diabetes') {
-        for (let indicator of diabetesIndicators) {
-            results.push({
-                desc: indicator.desc(),
-                longDesc: indicator.longDesc(),
-                results: {
+    for (let indicator of getIndicatorsFor(condition)) {
+        results.push({
+            desc: indicator.desc,
+            longDesc: indicator.longDesc,
+            results: getResults(indicator.rule, indicator.colNames, patients)
+        })
+    }
+    return results;
+}
 
-                }
-            }
-
-            )
-        }
+let getIndicatorsFor = (condition) => {
+    switch(condition) {
+        case 'diabetes':
+            return diabetesIndicators
+        default:
+            return []
     }
 }
 
@@ -58,38 +48,43 @@ let isFalse = (count=0, status) => {
     return count
 }
 
-let isNaN = (count=0, status) => {
+let isNotApplicable = (count=0, status) => {
     if (isNaN(status)) return count + 1
     return count
 }
 
 
 let getResults = (rule, colNames, patients) => {
-    results = patients.map((patient) => {
+    let results = patients.map((patient) => {
         return rule(...mapColNamesToValues(colNames, patient))
     })
     return {
-        'passed': arr.reduce(isTrue, 0),
-        'failed': arr.reduce(isFalse, 0),
-        'na': arr.reduce(isNaN, 0),
+        'passed': results.reduce(isTrue, 0),
+        'failed': results.reduce(isFalse, 0),
+        'na': results.reduce(isNotApplicable, 0)
     }
 }
 
-let dmVisit = {
-    name: 'dmVisit',
-    params: { months: 12 },
-    colNames: ["Report Date", "DM Months"],
-    desc: () => {return "Diabetic Visit in past " + this.params.months + " months"; },
-	longDesc: () => {return "% of patients who have had a diabetic visit (diagnostic code 250) in the past " + this.params.months + " months"; },
+let dmHbA1C = {
+    params: { 
+        months: {
+            value: 12,
+            default: 12 
+        }
+    },
+    get desc() { 
+        return "Hb A1C in past " + this.params.months.value + " months"; 
+    },
+	get longDesc() { 
+        return "% of patients who have had an Hb A1C measured in the past " + this.params.months.value + " months"; 
+    },
+    colNames: ["Report Date", "Date Hb A1C"],
     rule: (reportDate, measuredDate) => {
         try {
-            if (isNaN(measuredDate)) {
-                return false;
-            } 
-
-            targetDate = reportDate.getMonth() - this.months
+            if (isNaN(measuredDate)) return false 
+            // TODO: How to get params.months.value ??
+            let targetDate = reportDate.setMonth(reportDate.getMonth() - this.params.months.value)
             return (measuredDate >= targetDate);
-
         } catch (err) {
             console.log(err.message);
             return NaN;
@@ -98,7 +93,7 @@ let dmVisit = {
 }
 
 let diabetesIndicators = [
-    dmVisit
+    dmHbA1C
 ]
 
 module.exports = {

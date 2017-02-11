@@ -12,14 +12,14 @@ function barChart() {
         selection.each(function(data) {
             var barSpacing = height / data.length,
                 barHeight = barSpacing - barPadding,
-                maxValue = d3.max(data),
+                maxValue = 100,
                 widthScale = width / maxValue;
             
             d3.select(this).append('svg')
                 .attr('height', height)
                 .attr('width', width)
                 .selectAll('rect')
-                .data(data)
+                .data(data, function(d) { return d.results.passed / (d.results.passed + d.results.failed) * 100})
                     .enter()
                 .append('rect')
                 .attr('y', function(d, i) { return i * barSpacing})

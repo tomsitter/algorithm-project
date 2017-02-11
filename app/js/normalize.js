@@ -3,7 +3,7 @@ const parsers = require("./parsers")
 function normalizeDiabetes(emr, row) {
   record = {};
   for (let [emrKey, mapper] of entries(diabetesMap[emr])) {
-    record[mapper.key] = mapper.parse(emr, row[emrKey])
+    record[mapper.key] = mapper.parse(row[emrKey])
   } 
   return record
 }
@@ -17,6 +17,10 @@ diabetesMap = {
     "Date LDL": {
       "key": "Date LDL",
       "parse": parsers.parseDate
+    },
+    "Report Date": {
+      "key": "Report Date",
+      "parse": parsers.parseDdMmYyyyDate
     },
     "DM Months": {
       "key": "DM Months",
