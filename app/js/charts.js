@@ -19,13 +19,13 @@ function barChart() {
                 .attr('height', height)
                 .attr('width', width)
                 .selectAll('rect')
-                .data(data, function(d) { return d.results.passed / (d.results.passed + d.results.failed) * 100})
+                .data(data)
                     .enter()
                 .append('rect')
                 .attr('y', function(d, i) { return i * barSpacing})
                 .attr('height', barHeight)
                 .attr('x', 0)
-                .attr('width', function(d) { return d * widthScale})
+                .attr('width', function(d) { return d.results.passed / (d.results.passed + d.results.failed) * 100 * widthScale })
                 .style('fill', fillColor);
         });
     }

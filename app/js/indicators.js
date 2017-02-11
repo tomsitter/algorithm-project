@@ -19,7 +19,7 @@ let applyIndicators = (condition, patients) => {
         results.push({
             desc: indicator.desc,
             longDesc: indicator.longDesc,
-            results: getResults(indicator.rule, indicator.colNames, patients)
+            results: getResults(indicator.rule.bind(indicator), indicator.colNames, patients)
         })
     }
     return results;
@@ -65,26 +65,53 @@ let getResults = (rule, colNames, patients) => {
     }
 }
 
-let dmHbA1C = {
-    params: { 
-        months: {
-            value: 12,
-            default: 12 
+class dmHbA1C {
+    constructor() {
+        this.params = { 
+            months: {
+                value: 6,
+                default: 6 
+            }
         }
-    },
+        this.colNames = ["Report Date", "Date Hb A1C"]
+    }
     get desc() { 
         return "Hb A1C in past " + this.params.months.value + " months"; 
-    },
+    }
 	get longDesc() { 
         return "% of patients who have had an Hb A1C measured in the past " + this.params.months.value + " months"; 
-    },
-    colNames: ["Report Date", "Date Hb A1C"],
-    rule: (reportDate, measuredDate) => {
+    }
+    rule(reportDate, measuredDate) {
         try {
-            if (isNaN(measuredDate)) return false 
-            // TODO: How to get params.months.value ??
-            let targetDate = reportDate.setMonth(reportDate.getMonth() - this.params.months.value)
-            return (measuredDate >= targetDate);
+            let targetDate = new Date(reportDate).setMonth(reportDate.getMonth() - this.params.months.value)
+            return measuredDate >= targetDate;
+        } catch (err) {
+            console.log(err.message);
+            return NaN;
+        }
+    }
+}
+
+class dmVisit {
+    constructor() {
+        this.params = { 
+            months: {
+                value: 12,
+                default: 12 
+            }
+        }
+        this.colNames = ["Report Date", "Last DM Visit"]
+    }
+    get desc() { 
+        return "DM Visit in past " + this.params.months.value + " months"; 
+    }
+	get longDesc() { 
+        return "% of patients who have had a DM visit in the past " + this.params.months.value + " months"; 
+    }
+    rule(reportDate, measuredDate) {
+        try {
+            let targetDate = new Date(reportDate).setMonth(reportDate.getMonth() - this.params.months.value)
+            return measuredDate >= targetDate;
         } catch (err) {
             console.log(err.message);
             return NaN;
@@ -93,7 +120,8 @@ let dmHbA1C = {
 }
 
 let diabetesIndicators = [
-    dmHbA1C
+    new dmHbA1C(),
+    new dmVisit()
 ]
 
 module.exports = {

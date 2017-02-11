@@ -22,9 +22,9 @@ diabetesMap = {
       "key": "Report Date",
       "parse": parsers.parseDdMmYyyyDate
     },
-    "DM Months": {
-      "key": "DM Months",
-      "parse": parsers.parseNum
+    "Last DM Visit": {
+      "key": "Last DM Visit",
+      "parse": parsers.parseDate
     }
   }
 }
