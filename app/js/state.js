@@ -12,7 +12,7 @@ class State {
         // Setting data will automatically normalize it from EMR specific data to standardardized data
         delete this._results
         this._data = data
-        this.normalizedData = normalizeData(this.emr, this.condition, data)
+        this.normalizedData = normalizeData(this.emr, data)
     }
     get results() {
         // Indicator resulted are computed from the normalized data when asked for. 

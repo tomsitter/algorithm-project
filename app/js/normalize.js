@@ -1,14 +1,6 @@
 const parsers = require("./parsers")
 
-function normalizeDiabetes(emr, row) {
-  record = {};
-  for (let [emrKey, mapper] of entries(diabetesMap[emr])) {
-    record[mapper.key] = mapper.parse(row[emrKey])
-  } 
-  return record
-}
-
-diabetesMap = {
+parseMap = {
   "pss": {
     "Date Hb A1C": { 
       "key": "Date Hb A1C",
@@ -35,16 +27,18 @@ function* entries(obj) {
    }
 }
 
-// function normalizeData(data) {
-//   if (this.condition=='diabetes') {
-//     return data.map(row, normalizeDiabetes(this.emr, row))
-//   }
-// }
+let normalizeData = (emr, data) => {
+    return data.map((row) => normalizeRow(parseMap[emr], row))
+}
 
-let normalizeData = (emr, condition, data) => {
-  if (condition=='diabetes') {
-    return data.map((row) => normalizeDiabetes(emr, row))
+let normalizeRow = (parseMap, row) => {
+  record = {}
+  for (let [emrKey, mapper] of entries(parseMap)) {
+    if (row.hasOwnProperty(emrKey)) {
+      record[mapper.key] = mapper.parse(row[emrKey])
+    }
   }
+  return record
 }
 
 module.exports = {
