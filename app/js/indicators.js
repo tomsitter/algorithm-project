@@ -67,15 +67,9 @@ let getResults = (rule, colNames, patients) => {
 
 class dmHbA1CDate {
     constructor() {
-        this.params = { 
-            months: 6,
-        }
         this.colNames = ["Report Date", "Date Hb A1C"]
-    }
-    static get defaultParams() {
-        return {
-            months: 6
-        }
+        this.params = { months: 6 }
+        this._defaultParams = Object.assign({}, this.params)
     }
     get desc() { 
         return "Hb A1C in past " + this.params.months + " months"; 
@@ -96,15 +90,9 @@ class dmHbA1CDate {
 
 class dmVisit {
     constructor(customParams) {
-        this.params = { 
-            months: 12,
-        }
         this.colNames = ["Report Date", "Last DM Visit"]
-    }
-    static get defaultParams() {
-        return { 
-            months: 12
-        }
+        this.params = { months: 12 }
+        this._defaultParams = Object.assign({}, this.params)
     }
     get desc() { 
         return "DM Visit in past " + this.params.months + " months"; 
@@ -112,10 +100,10 @@ class dmVisit {
 	get longDesc() { 
         return "% of patients who have had a DM visit in the past " + this.params.months + " months"; 
     }
-    rule(reportDate, measuredDate) {
+    rule(reportDate, visitDate) {
         try {
             let targetDate = new Date(reportDate).setMonth(reportDate.getMonth() - this.params.months)
-            return measuredDate >= targetDate;
+            return visitDate >= targetDate;
         } catch (err) {
             console.log(err.message);
             return NaN;
@@ -125,15 +113,9 @@ class dmVisit {
 
 class dmHbA1C {
     constructor() {
-        this.params = { 
-            hba1c: 0.07,
-        }
         this.colNames = ["Hb A1C"]
-    }
-    static get defaultParams() {
-        return {
-            hba1c: 0.07
-        }
+        this.params = { hba1c: 0.07 }
+        this._defaultParams = Object.assign({}, this.params)
     }
     get desc() { 
         return "Hb A1C less than " + this.params.hba1c; 
