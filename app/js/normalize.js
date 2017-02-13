@@ -17,6 +17,10 @@ parseMap = {
     "Last DM Visit": {
       "key": "Last DM Visit",
       "parse": parsers.parseDate
+    },
+    "Hb A1C": {
+      "key": "Hb A1C",
+      "parse": parsers.parseHbA1c
     }
   }
 }

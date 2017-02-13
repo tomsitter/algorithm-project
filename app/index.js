@@ -39,6 +39,6 @@ function plot(err, raw) {
     */    
     appState.data = d3.csvParse(raw);
     
-    let exampleChart = charts.barChart();
-    d3.select("#d3-chart").datum(appState.results).call(exampleChart);
+    let barChart = charts.barChart();
+    d3.select("#d3-chart").datum(appState.results).call(barChart);
 }

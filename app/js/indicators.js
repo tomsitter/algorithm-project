@@ -65,7 +65,7 @@ let getResults = (rule, colNames, patients) => {
     }
 }
 
-class dmHbA1C {
+class dmHbA1CDate {
     constructor() {
         this.params = { 
             months: {
@@ -119,9 +119,36 @@ class dmVisit {
     }
 }
 
+class dmHbA1C {
+    constructor() {
+        this.params = { 
+            hba1c: {
+                value: 0.07,
+                default: 0.07 
+            }
+        }
+        this.colNames = ["Hb A1C"]
+    }
+    get desc() { 
+        return "Hb A1C less than " + this.params.hba1c.value; 
+    }
+	get longDesc() { 
+        return "% of patients whose most recent Hb A1C is less than " + this.params.hba1c.value; 
+    }
+    rule(labValue) {
+        try {
+            return labValue <= this.params.hba1c.value;
+        } catch (err) {
+            console.log(err.message);
+            return NaN;
+        }
+    }
+}
+
 let diabetesIndicators = [
+    new dmHbA1CDate(),
+    new dmVisit(),
     new dmHbA1C(),
-    new dmVisit()
 ]
 
 module.exports = {
