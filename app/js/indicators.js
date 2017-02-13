@@ -68,22 +68,24 @@ let getResults = (rule, colNames, patients) => {
 class dmHbA1CDate {
     constructor() {
         this.params = { 
-            months: {
-                value: 6,
-                default: 6 
-            }
+            months: 6,
         }
         this.colNames = ["Report Date", "Date Hb A1C"]
     }
+    static get defaultParams() {
+        return {
+            months: 6
+        }
+    }
     get desc() { 
-        return "Hb A1C in past " + this.params.months.value + " months"; 
+        return "Hb A1C in past " + this.params.months + " months"; 
     }
 	get longDesc() { 
-        return "% of patients who have had an Hb A1C measured in the past " + this.params.months.value + " months"; 
+        return "% of patients who have had an Hb A1C measured in the past " + this.params.months + " months"; 
     }
     rule(reportDate, measuredDate) {
         try {
-            let targetDate = new Date(reportDate).setMonth(reportDate.getMonth() - this.params.months.value)
+            let targetDate = new Date(reportDate).setMonth(reportDate.getMonth() - this.params.months)
             return measuredDate >= targetDate;
         } catch (err) {
             console.log(err.message);
@@ -93,24 +95,26 @@ class dmHbA1CDate {
 }
 
 class dmVisit {
-    constructor() {
+    constructor(customParams) {
         this.params = { 
-            months: {
-                value: 12,
-                default: 12 
-            }
+            months: 12,
         }
         this.colNames = ["Report Date", "Last DM Visit"]
     }
+    static get defaultParams() {
+        return { 
+            months: 12
+        }
+    }
     get desc() { 
-        return "DM Visit in past " + this.params.months.value + " months"; 
+        return "DM Visit in past " + this.params.months + " months"; 
     }
 	get longDesc() { 
-        return "% of patients who have had a DM visit in the past " + this.params.months.value + " months"; 
+        return "% of patients who have had a DM visit in the past " + this.params.months + " months"; 
     }
     rule(reportDate, measuredDate) {
         try {
-            let targetDate = new Date(reportDate).setMonth(reportDate.getMonth() - this.params.months.value)
+            let targetDate = new Date(reportDate).setMonth(reportDate.getMonth() - this.params.months)
             return measuredDate >= targetDate;
         } catch (err) {
             console.log(err.message);
@@ -122,22 +126,24 @@ class dmVisit {
 class dmHbA1C {
     constructor() {
         this.params = { 
-            hba1c: {
-                value: 0.07,
-                default: 0.07 
-            }
+            hba1c: 0.07,
         }
         this.colNames = ["Hb A1C"]
     }
+    static get defaultParams() {
+        return {
+            hba1c: 0.07
+        }
+    }
     get desc() { 
-        return "Hb A1C less than " + this.params.hba1c.value; 
+        return "Hb A1C less than " + this.params.hba1c; 
     }
 	get longDesc() { 
-        return "% of patients whose most recent Hb A1C is less than " + this.params.hba1c.value; 
+        return "% of patients whose most recent Hb A1C is less than " + this.params.hba1c; 
     }
     rule(labValue) {
         try {
-            return labValue <= this.params.hba1c.value;
+            return labValue <= this.params.hba1c;
         } catch (err) {
             console.log(err.message);
             return NaN;

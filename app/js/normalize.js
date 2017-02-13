@@ -1,26 +1,26 @@
-const parsers = require("./parsers")
+const {Parser} = require("./parsers")
 
 parseMap = {
   "pss": {
     "Date Hb A1C": { 
       "key": "Date Hb A1C",
-      "parse": parsers.parseDate
+      "parse": Parser.parseDate
     },
     "Date LDL": {
       "key": "Date LDL",
-      "parse": parsers.parseDate
+      "parse": Parser.parseDate
     },
     "Report Date": {
       "key": "Report Date",
-      "parse": parsers.parseDdMmYyyyDate
+      "parse": Parser.parseDdMmYyyyDate
     },
     "Last DM Visit": {
       "key": "Last DM Visit",
-      "parse": parsers.parseDate
+      "parse": Parser.parseDate
     },
     "Hb A1C": {
       "key": "Hb A1C",
-      "parse": parsers.parseHbA1c
+      "parse": Parser.parseHbA1c
     }
   }
 }
