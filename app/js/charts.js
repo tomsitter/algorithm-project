@@ -7,8 +7,8 @@ function barChart() {
         barPadding = 1,
         fillColor = 'steelblue';
 
-    let width = 360 - margin.left - margin.right,
-        height = 360 - margin.top - margin.bottom;
+    let width = 540 - margin.left - margin.right,
+        height = 540 - margin.top - margin.bottom;
         
     function my(selection) {
         selection.each(function(data) {
@@ -16,6 +16,8 @@ function barChart() {
                 barWidth = barSpacing - barPadding,
                 maxValue = 100,
                 widthScale = width / maxValue;
+
+            d3.select(this).selectAll("svg").remove();
             
             var svg = d3.select(this).append('svg')
                         .attr('height', height + margin.top + margin.bottom)
