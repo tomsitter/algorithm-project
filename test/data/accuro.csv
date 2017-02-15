@@ -1,0 +1,4 @@
+"Last Name", "First Name", "PHN", "Lab Type", "Collection Date", "Value", "PCode", "Lab Type", "Collection Date", "Value"
+Last1, First1, 1234, HbA1C, 12/01/2016, 0.055, 250, non-HDL, 12/02/2016, 2.0
+Last2, First2, 5678, HbA1C, 11/01/2016, 0.077, 250, LDL, 11/02/2016, 3.0
+Last3, First3, 9012, Hemoglobin A1C, 10/01/2016, 0.09, 250, LDL, 10/02/2016, 2.5.0
