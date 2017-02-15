@@ -38,7 +38,6 @@ const conditionDropdown = document.getElementById('condition')
 conditionDropdown.addEventListener('change', (evt) => {
     // Update the app state when the chronic condition selection changes
     appState.condition = evt.target.value;
-<<<<<<< HEAD
 })
 
 function process(err, raw) {
@@ -135,6 +134,3 @@ function rowsToObjects(table) {
     }, {});
   });
 }
-=======
-})
->>>>>>> 5f66f61196ecdb296b21e8dc3316e1ae75ed8ddf
