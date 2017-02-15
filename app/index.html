@@ -4,22 +4,22 @@
     <title>Test App</title>
 </head>
 <body>
-<h1>Open the CSV file tests/data/test.csv</h1>
+<h1>Algorithm Project Reporting Tool</h1>
 
-<select id="emr">
-    <option value="pss">PSS</option>
-    <option value="accuro">Accuro</option>
-    <option value="oscar">OSCAR</option>
-</select> 
-<select id="condition">
-    <option value="diabetes">Diabetes</option>
-    <option value="hypertension">Hypertension</option>
-    <option value="chf">Congestive Heart Failure</option>
-</select>
-<button class="csv-button" id="open-file-manager">Open File</button>
-<div style="width:100%">
-    <svg width="480" height="360" id="d3-chart"></svg>
+<div id="options">
+    <select id="emr">
+        <option value="pss">PSS</option>
+        <option value="accuro">Accuro</option>
+        <option value="oscar">OSCAR</option>
+    </select> 
+    <select id="condition">
+        <option value="diabetes">Diabetes</option>
+        <option value="hypertension">Hypertension</option>
+        <option value="chf">Congestive Heart Failure</option>
+    </select>
+    <button class="csv-button" id="open-file-manager">Open File</button>
 </div>
+<div id="d3-chart" style="width:100%"></div>
 <script>require('./index.js')</script>
 </body>
 
