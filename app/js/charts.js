@@ -98,10 +98,6 @@ function barChart() {
     return my
 }
 
-module.exports = {
-    'barChart': barChart
-}
-
 function wrap(text, width) {
   text.each(function() {
     var text = d3.select(this),
@@ -124,4 +120,8 @@ function wrap(text, width) {
       }
     }
   });
+}
+
+module.exports = {
+    barChart
 }
