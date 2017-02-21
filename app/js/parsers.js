@@ -1,5 +1,7 @@
 // Utility functions for parsing data from various EMRs
 
+let d3 = require('d3')
+
 class Parser {
      static parseDate(date) {
          return new Date(date);
@@ -26,7 +28,11 @@ class Parser {
     }
 }
 
-function parseAccuro(raw) {
+function parseCSV(raw) {
+    return d3.csvParse(raw)
+}
+
+function parseAccuroCSV(raw) {
     // Accuro uses generic column names (e.g. "Collection Date", "Value")
     // and uses a column ("Lab Type") to say what type of lab value is in the following two columns
     // we need to find all of the "Lab Type" columns, read the type, and rename the following two columns 
@@ -61,7 +67,7 @@ function parseAccuro(raw) {
         }
     })
 
-    return rowsToObjects([[newHeader], ...dataArray])
+    return rowsToObjects([newHeader, ...dataArray])
 }
 
 
@@ -103,6 +109,7 @@ function rowsToObjects(table) {
 }
 
 module.exports = {
-    parseAccuro,
+    parseCSV,
+    parseAccuroCSV,
     Parser
 }

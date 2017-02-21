@@ -4,7 +4,7 @@ const {dialog} = require('electron').remote
 
 const {barChart} = require("./js/charts")
 const {State} = require("./js/state")
-const {parseAccuro} = require("./js/parsers")
+const {parseCSV, parseAccuroCSV} = require("./js/parsers")
 
 var appState = new State();
 
@@ -38,9 +38,9 @@ function process(err, raw) {
     3) Plot the results from the analysis
     */   
     if (appState.emr == 'accuro') {
-        appState.data = parseAccuro(raw)
+        appState.data = parseAccuroCSV(raw)
     } else {
-        appState.data = d3.csvParse(raw);
+        appState.data = parseCSV(raw);
     }
     
     plot(appState.results)

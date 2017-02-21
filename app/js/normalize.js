@@ -1,8 +1,22 @@
 const {Parser} = require("./parsers")
 
-parseMap = {
-  "pss": {
-    "Date Hb A1C": { 
+const accuroParseMap = {
+ "Date HbA1C": {
+   "key": "Date Hb A1C",
+   "parse": Parser.parseDate
+ },
+ "Date LDL": {
+    "key": "Date LDL",
+    "parse": Parser.parseDate
+  },
+  "HbA1C": {
+    "key": "Hb A1C",
+    "parse": Parser.parseHbA1c
+  }
+}
+
+const pssParseMap = {
+  "Date Hb A1C": { 
       "key": "Date Hb A1C",
       "parse": Parser.parseDate
     },
@@ -22,7 +36,11 @@ parseMap = {
       "key": "Hb A1C",
       "parse": Parser.parseHbA1c
     }
-  }
+}
+
+const parseMap = {
+  "pss": pssParseMap,
+  "accuro": accuroParseMap
 }
 
 function* entries(obj) {
