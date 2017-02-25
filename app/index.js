@@ -15,7 +15,12 @@ fileManagerBtn.addEventListener('click', () => {
     // when clicked, open a file picker dialog and pass the raw data to the "plot" function
     dialog.showOpenDialog({properties: ['openFile']}, (filename) => {
         if (filename === undefined) return;
-        fs.readFile(filename[0], 'utf-8', process);
+
+        fs.stat(filename[0], (err, stats) => {
+            fs.readFile(filename[0], 'utf-8', (err, raw) => {
+                process(raw, stats)
+            })
+        })
     })
 })
 
@@ -31,14 +36,14 @@ conditionDropdown.addEventListener('change', (evt) => {
     appState.condition = evt.target.value;
 })
 
-function process(err, raw) {
+function process(raw, stats) {
     /* To plot the raw data we have to:
     1) Parse and normalize it
     2) Apply the appropriate indicators
     3) Plot the results from the analysis
     */   
     if (appState.emr == 'accuro') {
-        appState.data = parseAccuroCSV(raw)
+        appState.data = parseAccuroCSV(raw, stats)
     } else {
         appState.data = parseCSV(raw);
     }

@@ -12,6 +12,10 @@ const accuroParseMap = {
   "HbA1C": {
     "key": "Hb A1C",
     "parse": Parser.parseHbA1c
+  },
+  "Report Date": {
+    "key": "Report Date",
+    "parse": Parser.returnValue
   }
 }
 

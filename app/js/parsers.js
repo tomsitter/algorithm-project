@@ -26,13 +26,17 @@ class Parser {
         if (labValue > 2) labValue /= 100
         return labValue
     }
+
+    static returnValue(val) {
+        return val
+    }
 }
 
 function parseCSV(raw) {
     return d3.csvParse(raw)
 }
 
-function parseAccuroCSV(raw) {
+function parseAccuroCSV(raw, stats) {
     // Accuro uses generic column names (e.g. "Collection Date", "Value")
     // and uses a column ("Lab Type") to say what type of lab value is in the following two columns
     // we need to find all of the "Lab Type" columns, read the type, and rename the following two columns 
@@ -67,7 +71,11 @@ function parseAccuroCSV(raw) {
         }
     })
 
-    return rowsToObjects([newHeader, ...dataArray])
+    // Add "Report Date" column
+    newHeader.push("Report Date")
+    let finalDataArray = dataArray.map((row) => { return row.concat(stats.birthtime)})
+
+    return rowsToObjects([newHeader, ...finalDataArray])
 }
 
 
